@@ -9,10 +9,16 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
+        app: 'index.html',
         'service-worker': 'src/service-worker.ts',
       },
       output: {
-        entryFileNames: '[name].js',
+        entryFileNames: (assetInfo) => {
+          if (assetInfo.name === 'service-worker') {
+            return 'service-worker.js'
+          }
+          return 'assets/[name]-[hash].js'
+        },
       },
     },
   },
