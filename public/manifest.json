@@ -9,8 +9,9 @@
     "default_popup": "index.html"
   },
   "background": {
-    "service_worker": "service-worker.js"
+    "service_worker": "service-worker.js",
+    "type": "module"
   },
-  "permissions": ["scripting"],
+  "permissions": ["storage", "bookmarks"],
   "host_permissions": ["http://*/*", "https://*/*"]
 }
