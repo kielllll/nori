@@ -3,26 +3,31 @@ import Fuse from 'fuse.js'
 import type { Bookmark } from './lib/types'
 
 /**
- * Recursively flattens the bookmark tree into a simple list.
- * We only care about nodes that have a URL (i.e., actual bookmarks, not folders).
+ * Recursively processes the bookmark tree.
+ * Flattens bookmarks into a list and includes their folder path.
  */
-function flattenBookmarks(
-  nodes: chrome.bookmarks.BookmarkTreeNode[]
+function processBookmarks(
+  nodes: chrome.bookmarks.BookmarkTreeNode[],
+  path: string[] // The path to the current node (e.g., ['Work', 'Projects'])
 ): Bookmark[] {
   const bookmarks: Bookmark[] = []
 
   for (const node of nodes) {
-    // If it's a bookmark (it has a URL), add it.
+    // If it's a bookmark (it has a URL), add it to our list
     if (node.url) {
       bookmarks.push({
         title: node.title,
         url: node.url,
+        // Join the path array into a readable string
+        path: path.join(' / '),
       })
     }
 
-    // If it's a folder (it has children), recurse.
+    // If it's a folder (it has children), recurse
     if (node.children) {
-      bookmarks.push(...flattenBookmarks(node.children))
+      // Add the current folder's title to the path and continue
+      const newPath = [...path, node.title]
+      bookmarks.push(...processBookmarks(node.children, newPath))
     }
   }
 
@@ -36,15 +41,32 @@ async function buildIndex() {
   console.log('Building search index...')
   try {
     const bookmarkTree = await chrome.bookmarks.getTree()
-    const flattenedBookmarks = flattenBookmarks(bookmarkTree)
 
-    // 2. Create the Fuse.js index
-    const fuseIndex = Fuse.createIndex(['title', 'url'], flattenedBookmarks)
+    // Start processing, but skip the root node (which has no title)
+    // and its direct children ("Bookmarks Bar", "Other Bookmarks").
+    // We start recursion from the *children* of those top-level folders.
+    let flattenedBookmarks: Bookmark[] = []
+    if (bookmarkTree[0].children) {
+      for (const rootFolder of bookmarkTree[0].children) {
+        // Start recursion, passing the root folder's title as the start of the path
+        if (rootFolder.children) {
+          flattenedBookmarks.push(
+            ...processBookmarks(rootFolder.children, [rootFolder.title])
+          )
+        }
+      }
+    }
+
+    // 2. Create the Fuse.js index. Add 'path' to the keys!
+    const fuseIndex = Fuse.createIndex(
+      ['title', 'url', 'path'], // <-- ADD 'path'
+      flattenedBookmarks
+    )
 
     // 3. Store the index and the data
     await chrome.storage.local.set({
-      bookmarks: flattenedBookmarks, // Store the raw data for display
-      index: fuseIndex.toJSON(), // Store the serializable index
+      bookmarks: flattenedBookmarks, // This data now includes the path
+      index: fuseIndex.toJSON(),
     })
 
     console.log('Search index built and stored successfully.')

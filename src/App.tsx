@@ -55,6 +55,10 @@ function App() {
     return new Fuse(allBookmarks, options)
   }, [allBookmarks, fuseIndex]) // Dependencies
 
+  if (allBookmarks.length > 0) {
+    console.log(allBookmarks)
+  }
+
   // Perform the search and memoize the results
   // This re-runs only when 'query' or 'fuse' changes
   const searchResults = useMemo(() => {
@@ -82,7 +86,12 @@ function App() {
       />
       <div className="space-y-3 flex-1 overflow-y-scroll">
         {searchResults.map(({ item }, index) => (
-          <Bookmark key={index} title={item.title} link={item.url} />
+          <Bookmark
+            key={index}
+            title={item.title}
+            link={item.url}
+            path={item.path}
+          />
         ))}
       </div>
       <div className="mt-auto text-white text-xs mx-auto">
