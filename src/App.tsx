@@ -46,7 +46,7 @@ function App() {
     const options: IFuseOptions<TBookmark> & {
       index: FuseIndex<TBookmark>
     } = {
-      keys: ['title', 'url'],
+      keys: ['title', 'url', 'path'],
       threshold: 0.4,
       useExtendedSearch: true,
       index: fuseIndex, // Pass the pre-built index
