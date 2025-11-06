@@ -16,7 +16,9 @@ export default function Bookmark({ title, link = '#' }: IBookmarkProps) {
   return (
     <Card className="bg-black-600 border-none">
       <CardHeader>
-        <CardTitle className="text-white">{title}</CardTitle>
+        <CardTitle className="text-white text-xl font-semibold">
+          {title}
+        </CardTitle>
         <CardDescription className="text-white">{link}</CardDescription>
         <CardAction className="self-center">
           <a href={link} target="_blank">

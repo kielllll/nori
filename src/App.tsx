@@ -47,13 +47,13 @@ function App() {
   }, [searchItem])
 
   return (
-    <div className="p-6 flex flex-col gap-6 bg-black-900 w-md text-white max-w-md">
+    <div className="p-6 flex flex-col gap-6 bg-black-900 w-full text-white h-full">
       <Input
         value={searchItem}
         onChange={(event) => setSearchItem(event.target.value)}
         placeholder="Search your bookmark"
       />
-      <div className="space-y-3 overflow-y-scroll flex-1  ">
+      <div className="space-y-3 flex-1 overflow-y-scroll">
         {filteredBookmarks.map((item, index) => (
           <Bookmark key={index} {...item} />
         ))}
