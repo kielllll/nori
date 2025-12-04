@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# Nori
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div style="text-align: center">
+  <img src="public/icon64.png" alt="Nori the siberian husky" width="200" />
+</div>
 
-Currently, two official plugins are available:
+A Chrome extension that provides lightning-fast, fuzzy searching for your bookmarks. Find the bookmark you're looking for, even if you don't remember the exact title!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **⚡️ Fast Fuzzy Search:** Quickly find bookmarks even with typos or partial queries.
+- **🔄 Automatic Indexing:** The extension automatically indexes your bookmarks for optimal search performance.
+- **🔒 Secure & Local:** All your bookmark data and the search index are stored locally on your machine using `chrome.storage.local`. No data is ever sent to an external server.
+- **✨ Simple Interface:** A clean and intuitive popup for searching and navigating results.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How It Works
 
-## Expanding the ESLint configuration
+This extension leverages the power of a third-party fuzzy search library to provide a superior search experience.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1.  On first use, it reads your bookmarks using the `chrome.bookmarks` API.
+2.  It then creates a highly optimized search index from your bookmarks' titles and URLs.
+3.  This index is stored securely in `chrome.storage.local`.
+4.  When you type in the search bar, the extension queries the local index to find and display relevant bookmarks instantly.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Installation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### From Source (for Developers)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+If you want to install the extension from the source code:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  **Clone the repository:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    ```bash
+    git clone https://github.com/kielllll/nori
+    ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2.  **Install dependencies and build the application**
+
+    - Run `pnpm i`
+    - Run `pnpm build`
+
+3.  **Load the extension in Chrome:**
+    - Open Google Chrome and navigate to `chrome://extensions`.
+    - Enable **"Developer mode"** using the toggle switch in the top-right corner.
+    - Click the **"Load unpacked"** button.
+    - Select the directory in your repository where the application is built. Usually can be found on `/dist`.
+
+The extension icon should now appear in your Chrome toolbar.
+
+<!--
+### From the Chrome Web Store
+
+> **Note:** This section is a placeholder.
+
+[Link to Chrome Web Store Listing] - Coming Soon!
+-->
+
+## Usage
+
+1.  Click the extension icon in your Chrome toolbar.
+2.  A popup with a search bar will appear.
+3.  Start typing your search query.
+4.  Results will update in real-time as you type.
+5.  Click on any result to open the bookmark in a new tab.
+
+## Development
+
+### Prerequisites
+
+- A modern web browser like Google Chrome.
+- pnpm - Package management tool
+- Atleast v22 of Node.js
+- A text editor (e.g., VS Code).
+
+### Contributing
+
+Contributions are welcome! If you have ideas for improvements or find a bug, please open an issue or fork the project and submit a pull request.
+
+## Built With
+
+- React - a modern javascript library
+- TailwindCSS - utility-first css framework
+- Vite - modern frontend bundling
+- Fuse.js - lightweight fuzzy-search library
+
+## License
+
+MIT License
