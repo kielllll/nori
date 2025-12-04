@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "name": "Nori",
   "icons": {
-    "64": "icon64.png"
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "64": "icon64.png",
+    "128": "icon128.png"
   },
   "action": {
     "default_popup": "index.html"
@@ -12,6 +15,5 @@
     "service_worker": "service-worker.js",
     "type": "module"
   },
-  "permissions": ["storage", "bookmarks"],
-  "host_permissions": ["http://*/*", "https://*/*"]
+  "permissions": ["storage", "bookmarks"]
 }

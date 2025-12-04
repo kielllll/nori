@@ -1,7 +1,7 @@
 # Nori
 
-<div style="text-align: center">
-  <img src="public/icon64.png" alt="Nori the siberian husky" width="200" />
+<div style="text-align: center; width: 100vw">
+  <img src="public/nori.jpg" alt="Nori the siberian husky" width="200" />
 </div>
 
 A Chrome extension that provides lightning-fast, fuzzy searching for your bookmarks. Find the bookmark you're looking for, even if you don't remember the exact title!
